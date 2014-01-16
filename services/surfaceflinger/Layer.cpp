@@ -444,13 +444,12 @@ void Layer::setAcquireFence(const sp<const DisplayDevice>& hw,
     // TODO: there is a possible optimization here: we only need to set the
     // acquire fence the first time a new buffer is acquired on EACH display.
 
-    if (layer.getCompositionType() == HWC_OVERLAY ||
-            layer.getCompositionType() == HWC_BLIT) {
+   if (layer.getCompositionType() == HWC_OVERLAY) {
         sp<Fence> fence = mSurfaceFlingerConsumer->getCurrentFence();
         if (fence->isValid()) {
             fenceFd = fence->dup();
             if (fenceFd == -1) {
-                ALOGW("failed to dup layer fence, skipping sync: %d", errno);
+                ALOGW("failed to dup layer fence, skipping sync: %d", errno
             }
         }
     }
